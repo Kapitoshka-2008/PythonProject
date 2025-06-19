@@ -1,5 +1,10 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import unittest
 from src.vacancy import Vacancy
+
 
 class TestVacancy(unittest.TestCase):
     def setUp(self):
@@ -12,7 +17,7 @@ class TestVacancy(unittest.TestCase):
             requirements="Python, Django",
             company_name="Test Company"
         )
-        
+
         self.vacancy2 = Vacancy(
             title="Senior Python Developer",
             url="https://hh.ru/vacancy/2",
@@ -22,7 +27,7 @@ class TestVacancy(unittest.TestCase):
             requirements="Python, Django, Flask",
             company_name="Test Company 2"
         )
-        
+
         self.vacancy3 = Vacancy(
             title="Junior Python Developer",
             url="https://hh.ru/vacancy/3",
@@ -32,19 +37,19 @@ class TestVacancy(unittest.TestCase):
             requirements="Python basics",
             company_name="Test Company 3"
         )
-    
+
     def test_salary_comparison(self):
         """Test salary comparison between vacancies"""
         self.assertLess(self.vacancy1, self.vacancy2)
         self.assertGreater(self.vacancy2, self.vacancy1)
         self.assertEqual(self.vacancy1, self.vacancy1)
-    
+
     def test_average_salary(self):
         """Test average salary calculation"""
         self.assertEqual(self.vacancy1.average_salary, 125000)
         self.assertEqual(self.vacancy2.average_salary, 225000)
         self.assertEqual(self.vacancy3.average_salary, 0)
-    
+
     def test_cast_to_object_list(self):
         """Test conversion from JSON to Vacancy objects"""
         json_data = [{
@@ -55,12 +60,13 @@ class TestVacancy(unittest.TestCase):
             "snippet": {"requirement": "Python, Django"},
             "employer": {"name": "Test Company"}
         }]
-        
+
         vacancies = Vacancy.cast_to_object_list(json_data)
         self.assertEqual(len(vacancies), 1)
         self.assertEqual(vacancies[0].title, "Python Developer")
         self.assertEqual(vacancies[0].salary_from, 100000)
         self.assertEqual(vacancies[0].salary_to, 150000)
 
+
 if __name__ == '__main__':
-    unittest.main() 
+    unittest.main()
