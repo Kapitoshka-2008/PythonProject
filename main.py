@@ -15,8 +15,8 @@ def filter_vacancies(vacancies: List[Vacancy], filter_words: List[str]) -> List[
         description = vacancy.description or ""
         requirements = vacancy.requirements or ""
 
-        if any(word.lower() in description.lower() or
-               word.lower() in requirements.lower()
+        if any(word.lower() in description.lower()
+               or word.lower() in requirements.lower()
                for word in filter_words):
             filtered.append(vacancy)
     return filtered
